@@ -1,0 +1,46 @@
+% http://en.wikibooks.org/wiki/LaTeX/
+\documentclass[oneside, a4paper,12pt]{Thesis}
+
+%\documentclass[12pt,a4paper,oneside]{report}
+%\usepackage[pdftex]{graphicx} %for embedding images
+\usepackage{url} %for proper url entries
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{pgfplots}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage[backend=biber,sorting=none]{biblatex}
+\addbibresource{sample.bib}
+\usepackage[utf8]{inputenc}
+\usepackage{dirtytalk}
+\begin{document}
+%\renewcommand\bibname{References} %Renames "Bibliography" to "References" on ref page
+%\renewcommand{\abstractname}{\LARGE Abstract}
+%\renewcommand{\abstractnamefont}{\normalfont\large\bfseries}
+%include other pages
+\makeatletter
+\input{Title}
+\input{Statement_of_Candidate}
+\pagenumbering{roman} %numbering before main content starts
+\input{Certificate}
+\input{Approval}
+\input{Acknowledgements}
+\input{Abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\newpage
+\pagenumbering{arabic} %reset numbering to normal for the main content
+\input{Introduction} 
+\input{Literature_Survey}
+%\input{Data_Preprocessing}
+%\input{Improved_Probabilistic_Model}
+\input{Results}
+\input{Conclusion}
+\printbibliography[heading=bibintoc,title={References}]
+%\input{appendix}
+\end{document}
+\makeatother
