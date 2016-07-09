@@ -1,0 +1,50 @@
+\chapter{Literature Survey}
+
+% citation in heading
+% method used
+% prevention method
+		% before 
+		% after
+		% use of solution	
+% Research Gap
+% solution of all papers 
+% what problem taken care of 
+% what are remaining 
+% how they are affecting the system
+
+\section{Virtualization vs. cloud computing}
+    \subsection{Benefits of cloud computing}
+    \begin{enumerate}
+    \item Flexibility
+    \par Cloud-based services are ideal for businesses with growing or fluctuating bandwidth demands. If your needs increase it’s easy to scale up your cloud capacity, drawing on the service’s remote servers. Likewise, if you need to scale down again, the flexibility is baked into the service\cite{ben}. 
+    
+    \item Disaster recovery
+    \par Businesses of all sizes should be investing in robust disaster recovery, but for smaller businesses that lack the required cash and expertise, this is often more an ideal than the reality. Cloud is now helping more organisations buck that trend\cite{ben}.
+    
+    \item Automatic software updates
+    \par The beauty of cloud computing is that the servers are off-premise, out of sight and out of your hair. Suppliers take care of them for you and roll out regular software updates – including security updates – so you don’t have to worry about wasting time maintaining the system yourself. Leaving you free to focus on the things that matter, like growing your business\cite{ben}.
+    
+    \item Capital-expenditure Free
+    \par Cloud computing cuts out the high cost of hardware. You simply pay as you go and enjoy a subscription-based model that’s kind to your cash flow. Add to that the ease of setup and management and suddenly your scary, hairy IT project looks at lot friendlier\cite{ben}. 
+    
+    \item Increased collaboration
+    \par When your teams can access, edit and share documents anytime, from anywhere, they’re able to do more together, and do it better. Cloud-based workflow and file sharing apps help them make updates in real time and gives them full visibility of their collaborations\cite{ben}.
+    
+    \item Work from anywhere
+    \par With cloud computing, if you’ve got an internet connection you can be at work. And with most serious cloud services offering mobile apps, you’re not restricted by which device you’ve got to hand\cite{ben}.
+    
+    \item Document control
+    \par The more employees and partners collaborate on documents, the greater the need for watertight document control. Before the cloud, workers had to send files back and forth as email attachments to be worked on by one user at a time. Sooner or later – usually sooner – you end up with a mess of conflicting file content, formats and titles\cite{ben}.
+    
+    \item Security
+    \par Lost laptops are a billion dollar business problem. And potentially greater than the loss of an expensive piece of kit is the loss of the sensitive data inside it. Cloud computing gives you greater security when this happens. Because your data is stored in the cloud, you can access it no matter what happens to your machine. And you can even remotely wipe data from lost laptops so it doesn’t get into the wrong hands\cite{ben}.
+    
+    \item Competitiveness
+    \par Wish there was a simple step you could take to become more competitive? Moving to the cloud gives access to enterprise-class technology, for everyone. It also allows smaller businesses to act faster than big, established competitors. Pay-as-you-go service and cloud business applications mean small outfits can run with the big boys, and disrupt the market, while remaining lean and nimble\cite{ben}.
+    
+    \item Environmentally friendly
+    \par While the above points spell out the benefits of cloud computing for your business, moving to the cloud isn’t an entirely selfish act. The environment gets a little love too. When your cloud needs fluctuate, your server capacity scales up and down to fit. So you only use the energy you need and you don’t leave oversized carbon footprints\cite{ben}.
+    
+    \end{enumerate}
+    \clearpage
+%\section{Open source cloud platforms}

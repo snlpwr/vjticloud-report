@@ -14,14 +14,14 @@ In a world that sees new technological trends bloom and fade on almost a daily b
 
 \par The hybrid cloud a mix of the public cloud and an internal private cloud managed in-house can offer greater scalability and increased control over the computing environment. But it can also bring challenges. Integrating elements of public and private clouds can be difficult and surprisingly expensive. Plus, with a third-party provider still in play, questions about security, data protection and management can still persist. 
 
-\par For number of organizations, the private cloud a cloud-like model managed entirely in-house is proving to be the best option. Investing in a private cloud gives an enterprise control over its data and provides a higher level of security, while also enabling IT to manage its own service levels and scale applications as needed. Essentially, the private cloud leverages existing IT infrastructure, takes facets of the cloud and maps them into the enterprise. The result is a mix of cost savings, efficiency and control that brings the security of classic IT models with the efficiency of the cloud. 
+\par For number of organizations, the private cloud a cloud-like model managed entirely in-house is proving to be the best option. Investing in a private cloud gives an enterprise control over its data and provides a higher level of security, while also enabling IT to manage its own service levels and scale applications as needed. Essentially, the private cloud leverages existing IT infrastructure, takes facets of the cloud and maps them into the enterprise. The result is a mix of cost savings, efficiency and control that brings the security of classic IT models with the efficiency of the cloud.
 
 \section{Problem Formulation}
  \par
  %\@title
  \textbf{\textquotedblleft \@title"}
  
- \par Main objective of this project is to build cloud for VJTI with core cloud computing services such as compute, storage and network. Currently We have Virtualization environment which is very good but has some limitaions like centralized control is required, manual deployment, cannot be made fully automated etc. Also every year there are at least 10 to 15 projects related to cloud are completed in college but they don't get cloud environment to use they have to depend on public clouds, so lets build the fully functional cloud. 
+ \par VJTI is an engineering institute and research center and it has its own data center manged by using Proxmox Virtualization Environment. Though Proxmox provides stability and control over all resources of institute, it is not easy to manage all the things in peak hours, some system needs to keep shut off. Well this is technical issue lets talk about academics, every year there are at least three subjects related to cloud computing or cloud computing are taught as well as 10 to 15 students do their project related to cloud but they are not able to use cloud functionality unless they have subscription some public cloud. So, to solve above problems we come up with solution of- VJTICloud.
 
 \section{Objective and Scope Work}
 
@@ -39,38 +39,39 @@ The main objective of the research presented here is to build private cloud usin
 
 \section{Significant Contribution}
 
-Though we know that cloud can do this and cloud can do that, it is not easy to have all the features in private cloud. We have chosen Openstack for building the cloud IaaS, it is currently market leader in open source cloud software or cloud operating system. Openstack consist of interrelated components that control hardware pools of processing, storage and network resources\cite{wiki}. Openstack has various projects for various services like core projects/services:
+Though we know that cloud can do this and cloud can do that, it is not easy to have all the features in private cloud. We have chosen Openstack for building the cloud IaaS, it is currently market leader in open source cloud software or cloud operating system. Openstack consist of interrelated components that control hardware pools of processing, storage and network resources\cite{wiki}. Openstack has following core projects / services
 \begin{enumerate}
-    \item Keystone [Identity]
-    \item Nova [Compute]
-    \item Glance [Image]
-    \item Neutron [Network]
+    \item Keystone / Identity service
+    \item Nova / Compute service
+    \item Glance / Image service
+    \item Neutron / Network service
 \end{enumerate}
 
-and some optional projects and services:
+and some optional projects / services:
 \begin{enumerate}
-    \item Horizon
-    \item Cinder [Block storage]
-    \item Swift [Object storage]
-    \item Heat [Orchestration]
-    \item Ceilometer [Telemetry]
-    \item Sahara [Elastic Map Reduce]
-    \item Trove [Database]etc.
+    \item Horizon / Dashboard
+    \item Cinder / Block storage service
+    \item Swift / Object storage service
+    \item Heat / Orchestration service
+    \item Ceilometer / Telemetry service
+    \item Sahara / Elastic Map Reduce service
+    \item Trove / Database service
 \end{enumerate}
 
-and even if you install these services, all features of these services are not available by default you have to configure them. Following is a list of additional services and features needs to be added VJTICloud.
+and even if you install these services, all features of these services are not available by default you have to configure them. Following is a list of additional services and features needs to be added in VJTICloud.
 
 \begin{enumerate}
-  \item Block storage
-  \item Object storage
-  \item Dashboard
-  \item Orchestration
-  \item firewall
-  \item Load balancer
+  \item Block storage service
+  \item Object storage service
+  \item Dashboard service
+  \item Orchestration service
+  \item Firewall as a service
+  \item Load balancer as a service
   \item VM resize 
   \item Live VM migration
   \item Make cloud available for institute
   \item GUI access of VM using browser
+  \item Network configuration
   
 \end{enumerate}
 

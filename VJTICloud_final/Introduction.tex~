@@ -25,7 +25,17 @@ In a world that sees new technological trends bloom and fade on almost a daily b
 
 \section{Objective and Scope Work}
 
-The main objective of the research presented here is to build private cloud infrastructure and find out the use cases for educational institute as well as provide guidelines for production level cloud.  
+The main objective of the research presented here is to build private cloud using Openstack. Which will act as pilot project in the decision making whether VJTI should go for Private cloud or not. And also to address the following problems in current infrastructure 
+
+\begin{enumerate}
+  \item User should be able to start and shutdown his own VM
+  \item Faster VM provisioning
+  \item Scalability of hardware resources
+  \item Full Hardware utilization and power saving % Flavors and IPMI interface or manually shuting down compute nodes when not needed.
+  \item Multitenancy % Projects in dashboard
+  \item Perform faster migration and live migration % HA shared storage
+\end{enumerate}
+
 
 \section{Significant Contribution}
 
@@ -48,7 +58,7 @@ and some optional projects and services:
     \item Trove [Database]etc.
 \end{enumerate}
 
-and even if you install these services, all features of these services are not available by default you have to configure them. Following is a list of additional services and features in VJTICloud
+and even if you install these services, all features of these services are not available by default you have to configure them. Following is a list of additional services and features needs to be added VJTICloud.
 
 \begin{enumerate}
   \item Block storage
@@ -63,11 +73,6 @@ and even if you install these services, all features of these services are not a
   \item GUI access of VM using browser
   
 \end{enumerate}
-
-
-
-
-
 
 \section{Thesis Organization}
 
