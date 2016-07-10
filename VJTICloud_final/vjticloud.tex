@@ -1,0 +1,533 @@
+\chapter{Architecture Design and deployment of cloud}
+
+    \section{Prerequisites}
+        \subsection{System Requirements for OpenStack cloud}
+        \begin{figure}[h]
+             \centering
+            \includegraphics[height=6cm,width=13cm]{images/hw.png}
+            \caption{Minimum System requirement} %\cite{openstack}
+        \end{figure}
+
+\section{Architecture}
+    \par OpenStack is highly configurable to meet different needs with various compute, networking, and storage options. OpenStack kilo installation guide enables us to choose our own OpenStack adventure using a combination of core and optional services.
+    
+    \subsection{Three-node architecture}
+    \par This architecture comes with OpenStack Networking (neutron) and optional nodes for Block Storage and Object Storage services.
+    
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=15cm,height=9cm]{images/three_node_arch2.png}
+        \caption{Three-node architecture}
+    \end{figure}
+    
+    \begin{itemize}
+        \item The controller node runs the Identity service, Image Service, management portions of Compute and Networking, Networking plug-in, and the dashboard. It also includes supporting services such as a SQL database, message queue, and Network Time Protocol (NTP).
+        \par Optionally, the controller node runs portions of Block Storage, Object Storage, Orchestration, Telemetry, Database, and Data processing services. These components provide additional features for your environment.
+        
+        \item The network node runs the Networking plug-in and several agents that provision tenant networks and provide switching, routing, NAT, and DHCP services. This node also handles external (Internet) connectivity for tenant virtual machine instances.
+        
+        \item The compute node runs the hypervisor portion of Compute that operates tenant virtual machines or instances. By default, Compute uses KVM as the hypervisor. The compute node also runs the Networking plug-in and an agent that connect tenant networks to instances and provide firewalling (security groups) services. You can run more than one compute node.
+        \par Optionally, the compute node runs a Telemetry agent to collect meters. Also, it can contain a third network interface on a separate storage network to improve performance of storage services.
+        
+        \item The optional Block Storage node contains the disks that the Block Storage service provisions for tenant virtual machine instances. You can run more than one of these nodes.
+        \par Optionally, the Block Storage node runs a Telemetry agent to collect meters. Also, it can contain a second network interface on a separate storage network to improve performance of storage services.
+        
+        \item The optional Object Storage nodes contain the disks that the Object Storage service uses for storing accounts, containers, and objects. You can run more than two of these nodes. However, the minimal architecture example requires two nodes.
+        \par Optionally, these nodes can contain a second network interface on a separate storage network to improve performance of storage services.
+        
+    \end{itemize}
+    
+    \subsection{Two-node architecture}
+    \par This architecture comes with legacy networking (nova-network) and optional nodes for Block Storage and Object Storage services.
+    
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=15cm,height=9cm]{images/two_node_arch.png}
+        \caption{Three-node architecture}
+    \end{figure}
+    
+    \begin{itemize}
+        \item The controller node runs the Identity service, Image service, management portion of Compute, and the dashboard. It also includes supporting services such as a SQL database, message queue, and Network Time Protocol (NTP).
+        \par Optionally, the controller node runs portions of Block Storage, Object Storage, Orchestration, Telemetry, Database, and Data processing services. These components provide additional features for your environment.
+        
+        \item The compute node runs the hypervisor portion of Compute that operates tenant virtual machines or instances. By default, Compute uses KVM as the hypervisor. Compute also provisions tenant networks and provides firewalling (security groups) services. You can run more than one compute node.
+        \par Optionally, the compute node runs a Telemetry agent to collect meters. Also, it can contain a third network interface on a separate storage network to improve performance of storage services.
+        
+        \item The optional Block Storage node contains the disks that the Block Storage service provisions for tenant virtual machine instances. You can run more than one of these nodes.
+        \par Optionally, the Block Storage node runs a Telemetry agent to collect meters. Also, it can contain a second network interface on a separate storage network to improve performance of storage services.
+        
+        \item The optional Object Storage nodes contain the disks that the Object Storage service uses for storing accounts, containers, and objects. You can run more than two of these nodes. However, the minimal architecture example requires two nodes.
+        \par Optionally, these nodes can contain a second network interface on a separate storage network to improve performance of storage services.
+    \end{itemize}
+    
+    \subsection{Network configuration}
+    \par Following is network configuration for three node architecture 
+    \begin{figure}[h]
+        \centering
+        \includegraphics[height=7cm,width=13cm]{images/network_config.png}
+        \caption{Network configuration} 
+     \end{figure}
+     
+\section{Basic environment}
+    \begin{enumerate}
+        \item Install Ubuntu Server 14.04 LTS  on each node
+        \item Build physical network of all the nodes
+        \item Configure networks interfaces on each node
+        \item Configure Hostname and hosts file on each node
+        \item Verify network connectivity of each node
+        \item Install ntp server on each node
+        \begin{enumerate}
+            \item Configure controller node as NTP server 
+            \item Configure other nodes to reference the controller node
+            \item Verify Operation
+        \end{enumerate}
+        \item Install Ubuntu cloud keyring packages on each system
+        \item Update and dist-upgrade each system
+        \item Restart the systems
+        \item Install and configure the database server on controller node
+        \item Install the message queue service on controller node
+    \end{enumerate}
+    
+\section{Add the Identity service}
+    \subsection{OpenStack Identity concepts}
+
+    \par The OpenStackIdentity Service performs the following functions:
+
+    \begin{itemize}
+        \item Tracking users and their permissions.
+        \item Providing a catalog of available services with their API endpoints.
+    \end{itemize}
+
+    \par When installing OpenStack Identity service, you must register each service in your OpenStack installation. Identity service can then track which OpenStack services are installed, and where they are located on the network.
+
+    \par To understand OpenStack Identity, one must understand the following concepts:
+
+    \begin{enumerate}
+        \item User
+        \par Digital representation of a person, system, or service who uses OpenStack cloud services. The Identity service validates that incoming requests are made by the user who claims to be making the call. Users have a login and may be assigned tokens to access resources. Users can be directly assigned to a particular tenant and behave as if they are contained in that tenant.
+
+        \item Credentials
+        \par Data that confirms the user's identity. For example: user name and password, user name and API key, or an authentication token provided by the Identity Service.
+
+        \item Authentication
+        \par The process of confirming the identity of a user. OpenStack Identity confirms an incoming request by validating a set of credentials supplied by the user.
+        
+        \par These credentials are initially a user name and password, or a user name and API key. When user credentials are validated, OpenStack Identity issues an authentication token which the user provides in subsequent requests.
+        
+        \item Token
+        \par An alpha-numeric string of text used to access OpenStack APIs and resources. A token may be revoked at any time and is valid for a finite duration.
+        
+        \par While OpenStack Identity supports token-based authentication in this release, the intention is to support additional protocols in the future. Its main purpose is to be an integration service, and not aspire to be a full-fledged identity store and management solution.
+        
+        \item Tenant
+        \par A container used to group or isolate resources. Tenants also group or isolate identity objects. Depending on the service operator, a tenant may map to a customer, account, organization, or project.
+        
+        \item Service
+        \par An OpenStack service, such as Compute (nova), Object Storage (swift), or Image service (glance). It provides one or more endpoints in which users can access resources and perform operations.
+        
+        \item Endpoint
+        \par A network-accessible address where you access a service, usually a URL address. If you are using an extension for templates, an endpoint template can be created, which represents the templates of all the consumable services that are available across the regions.
+        
+        \item Role
+        \par A personality with a defined set of user rights and privileges to perform a specific set of operations.
+        
+        \par In the Identity service, a token that is issued to a user includes the list of roles. Services that are being called by that user determine how they interpret the set of roles a user has and to which operations or resources each role grants access.
+        
+        \item Keystone Client
+        \par A command line interface for the OpenStack Identity API. For example, users can run the keystone service-create and keystone endpoint-create commands to register services in their OpenStack installations.
+
+    \end{enumerate}
+    
+    \subsection{Install and configure}
+        \begin{enumerate}
+            \item Install and configure the Identity service components
+            \item Configure /etc/keystone/keystone.conf
+            \item Populate the identity database
+            \item Configure the Apache HTTP server
+            \item Restart the services
+            \item Remove the SQLite database file
+            \item Create the service entity and API endpoint
+            \item Create projects, users, and roles
+            \item Verify Operation
+            \item Create OpenStack client environment scripts
+        \end{enumerate}
+    
+\section{Add the Image service}
+    \subsection{OpenStack Image service}
+    \par The OpenStack Image service is central to Infrastructure-as-a-Service (IaaS). It accepts API requests for disk or server images, and image metadata from end users or OpenStack Compute components. It also supports the storage of disk or server images on various repository types, including OpenStack Object Storage.
+
+    \par A number of periodic processes run on the OpenStack Image service to support caching. Replication services ensure consistency and availability through the cluster. Other periodic processes include auditors, updaters, and reapers.
+    
+    \par The OpenStack Image service includes the following components:
+    
+    \begin{enumerate}
+    \item glance-api
+    \par Accepts Image API calls for image discovery, retrieval, and storage.
+    
+    \item glance-registry
+    \par Stores, processes, and retrieves metadata about images. Metadata includes items such as size and type.
+    \end{enumerate}
+    \subsection{Install and configure}
+        \begin{enumerate}
+            \item Create database, user, role, service and endpoint for glance
+            \item Install and configure the Image service components
+            \item Configure /etc/glance/glance-api.conf and /etc/glance/glance-registry.conf
+            \item Populate the image service database
+            \item Restart image service services
+            \item Remove the SQLite database file
+            \item Verify operation by uploading an image
+        \end{enumerate}
+\section{Add the Compute service}
+    \subsection{OpenStack Compute}
+    \par Use OpenStack Compute to host and manage cloud computing systems. OpenStack Compute is a major part of an Infrastructure-as-a-Service (IaaS) system. The main modules are implemented in Python.
+    
+    \par OpenStack Compute interacts with OpenStack Identity for authentication, OpenStack Image service for disk and server images, and OpenStack dashboard for the user and administrative interface. Image access is limited by projects, and by users; quotas are limited per project (the number of instances, for example). OpenStack Compute can scale horizontally on standard hardware, and download images to launch instances.
+    
+    \par OpenStack Compute consists of the following areas and their components:
+    
+    \subsubsection{API}
+        \begin{enumerate}
+            \item nova-api service
+            \par Accepts and responds to end user compute API calls. The service supports the OpenStack Compute API, the Amazon EC2 API, and a special Admin API for privileged users to perform administrative actions. It enforces some policies and initiates most orchestration activities, such as running an instance.
+            
+            \item nova-api-metadata service
+            \par Accepts metadata requests from instances. The nova-api-metadata service is generally used when you run in multi-host mode with nova-network installations.
+        \end{enumerate}
+        
+    \subsubsection{Compute core}
+        \begin{enumerate}
+            \item nova-compute service
+            \par A worker daemon that creates and terminates virtual machine instances through hypervisor APIs. For example:
+
+            \par -XenAPI for XenServer/XCP
+
+            \par -libvirt for KVM or QEMU
+
+            \par -VMwareAPI for VMware
+
+            \par Processing is fairly complex. Basically, the daemon accepts actions from the queue and performs a series of system commands such as launching a KVM instance and updating its state in the database.
+
+            \item nova-scheduler service
+            \par Takes a virtual machine instance request from the queue and determines on which compute server host it runs.
+
+            \item nova-conductor module
+            \par Mediates interactions between the nova-compute service and the database. It eliminates direct accesses to the cloud database made by the nova-compute service. The nova-conductor module scales horizontally. However, do not deploy it on nodes where the nova-compute service runs. 
+            
+            \item nova-cert module
+            \par A server daemon that serves the Nova Cert service for X509 certificates. Used to generate certificates for euca-bundle-image. Only needed for the EC2 API.
+            
+        \end{enumerate}
+    \subsubsection{Networking for VMs}
+        \begin{enumerate}
+            \item nova-network worker daemon
+            \par Similar to the nova-compute service, accepts networking tasks from the queue and manipulates the network. Performs tasks such as setting up bridging interfaces or changing IPtables rules.
+        \end{enumerate}
+    \subsubsection{Console interface}
+        \begin{enumerate}
+            \item nova-consoleauth daemon
+            \par Authorizes tokens for users that console proxies provide. See nova-novncproxy and nova-xvpvncproxy. This service must be running for console proxies to work. You can run proxies of either type against a single nova-consoleauth service in a cluster configuration.
+            
+            \item nova-novncproxy daemon
+            \par Provides a proxy for accessing running instances through a VNC connection. Supports browser-based novnc clients.
+
+            \item nova-spicehtml5proxy daemon
+            \par Provides a proxy for accessing running instances through a SPICE connection. Supports browser-based HTML5 client.
+
+            \item nova-xvpvncproxy daemon
+            \par Provides a proxy for accessing running instances through a VNC connection. Supports an OpenStack-specific Java client.
+
+            \item nova-cert daemon
+            \par x509 certificates.
+        \end{enumerate}
+    \subsubsection{Image management (EC2 scenario)}
+        \begin{enumerate}
+            \item nova-objectstore daemon
+            \par An S3 interface for registering images with the OpenStack Image service. Used primarily for installations that must support euca2ools. The euca2ools tools talk to nova-objectstore in S3 language, and nova-objectstore translates S3 requests into Image service requests.
+
+            \item euca2ools client
+            \par A set of command-line interpreter commands for managing cloud resources. Although it is not an OpenStack module, you can configure nova-api to support this EC2 interface.
+        \end{enumerate}
+    \subsubsection{Command-line clients and other interfaces}
+        \begin{enumerate}
+            \item nova client
+            \par Enables users to submit commands as a tenant administrator or end user.
+        \end{enumerate}
+    \subsubsection{Other components}
+        \begin{enumerate}
+            \item The queue
+            \par A central hub for passing messages between daemons. Usually implemented with RabbitMQ, but can be implemented with an AMQP message queue, such as Apache Qpid or Zero MQ.
+
+            \item SQL database
+            \par Stores most build-time and run-time states for a cloud infrastructure, including:
+            \par -Available instance types
+            \par -Instances in use
+            \par -Available networks
+            \par -Projects
+
+            \par Theoretically, OpenStack Compute can support any database that SQL-Alchemy supports. Common databases are SQLite3 for test and development work, MySQL, and PostgreSQL.
+        \end{enumerate}
+    \subsection{Install and configure}
+    
+    \subsubsection{Install and configure controller node}
+        \begin{enumerate}
+            \item Create database, user, role, service and endpoint for nova
+            \item Install and configure Compute controller components
+            \item Configure /etc/nova/nova.conf
+            \item Populate the Compute database
+            \item Restart compute services
+            \item Remove the SQLite database file
+        \end{enumerate}        
+    
+    \subsubsection{Install and configure a compute node}
+        \begin{enumerate}
+            \item Install and configure the Compute hypervisor components
+            \item Configure /etc/nova/nova.conf and /etc/nova/nova-compute.conf
+            \item Restart the compute service
+            \item Remove the SQLite database file
+            \item Verify Operation
+        \end{enumerate}
+
+\section{Add a networking component}
+    \subsection{Networking concepts}
+
+    \par OpenStack Networking (neutron) manages all networking facets for the Virtual Networking Infrastructure (VNI) and the access layer aspects of the Physical Networking Infrastructure (PNI) in your OpenStack environment. OpenStack Networking enables tenants to create advanced virtual network topologies including services such as firewalls, load balancers, and virtual private networks (VPNs).
+
+    \par Networking provides the networks, subnets, and routers object abstractions. Each abstraction has functionality that mimics its physical counterpart: networks contain subnets, and routers route traffic between different subnet and networks.
+    
+    \par Each router has one gateway that connects to a network, and many interfaces connected to subnets. Subnets can access machines on other subnets connected to the same router.
+    
+    \par Any given Networking set up has at least one external network. Unlike the other networks, the external network is not merely a virtually defined network. Instead, it represents a view into a slice of the physical, external network accessible outside the OpenStack installation. IP addresses on the external network are accessible by anybody physically on the outside network. Because the external network merely represents a view into the outside network, DHCP is disabled on this network.
+    
+    \par In addition to external networks, any Networking set up has one or more internal networks. These software-defined networks connect directly to the VMs. Only the VMs on any given internal network, or those on subnets connected through interfaces to a similar router, can access VMs connected to that network directly.
+    
+    \par For the outside network to access VMs, and vice versa, routers between the networks are needed. Each router has one gateway that is connected to a network and many interfaces that are connected to subnets. Like a physical router, subnets can access machines on other subnets that are connected to the same router, and machines can access the outside network through the gateway for the router.
+    
+    \par Additionally, you can allocate IP addresses on external networks to ports on the internal network. Whenever something is connected to a subnet, that connection is called a port.You can associate external network IP addresses with ports to VMs. This way, entities on the outside network can access VMs.
+    
+    \par Networking also supports security groups. Security groups enable administrators to define firewall rules in groups. A VM can belong to one or more security groups, and Networking applies the rules in those security groups to block or unblock ports, port ranges, or traffic types for that VM.
+    
+    \par Each plug-in that Networking uses has its own concepts. While not vital to operating the VNI and OpenStack environment, understanding these concepts can help you set up Networking. All Networking installations use a core plug-in and a security group plug-in (or just the No-Op security group plug-in). Additionally, Firewall-as-a-Service (FWaaS) and Load-Balancer-as-a-Service (LBaaS) plug-ins are available.
+
+    \subsection{Install and configure}
+    
+    \subsubsection{Install and configure controller node}
+        \begin{enumerate}
+            \item Create database, user, role, service and endpoint for neutron
+            \item Install the Networking components
+            \item Configure the Networking server component
+            \item Configure the Modular Layer 2 (ML2) plug-in 
+            \item Configure Compute to use Networking 
+            \item Populate the database
+            \item Restart compute services
+            \item Restart networking services        
+            \item Verify operation
+        \end{enumerate}   
+    \subsubsection{Install and configure network node}
+        \begin{enumerate}
+            \item Configure few kernel networking parameters
+            \item Install the Networking components
+            \item Configure the Networking common components 
+            \item Configure the Modular Layer 2 (ML2) plug-in 
+            \item Configure the Layer-3 (L3) agent 
+            \item Configure the DHCP agent 
+            \item Configure the metadata agent 
+            \item On the controller node, configure the /etc/nova/nova.conf
+            \item On controller node restart compute service
+            \item Configure the Open vSwitch (OVS) service
+            \item Restart OVS service
+            \item Restart networking services
+            \item Verify operation
+        \end{enumerate}   
+    \subsubsection{Install and configure compute node}
+        \begin{enumerate}
+            \item Configure few kernel networking parameters
+            \item Install the Networking components
+            \item Configure the Networking common components 
+            \item Configure the Modular Layer 2 (ML2) plug-in 
+            \item Configure the Open vSwitch (OVS) service
+            \item Restart OVS service
+            \item Configure Compute to use Networking
+            \item Restart the Compute service
+            \item Restart the Open vSwitch (OVS) agent
+            \item Verify operation
+        \end{enumerate}   
+    \subsubsection{Create initial networks}
+        \begin{enumerate}
+        \item External network
+        \item Tenant network
+        \item Verify connectivity
+        \end{enumerate}   
+    \end{enumerate}
+    
+\section{Add the dashboard}
+    \par The OpenStack dashboard, also known as Horizon, is a Web interface that enables cloud administrators and users to manage various OpenStack resources and services.
+
+    \par The dashboard enables web-based interactions with the OpenStack Compute cloud controller through the OpenStack APIs.
+
+    \par Horizon enables you to customize the brand of the dashboard.
+
+    \par Horizon provides a set of core classes and reusable templates and tools.
+    \subsection{Install and configure}
+        \begin{enumerate}
+            \item Install the dashboard components
+            \item Configure the dashboard
+            \item Reload the web server configuration
+            \item Verify operation
+        \end{enumerate}
+        
+        
+\section{Add the Block Storage service}
+
+    \subsection{OpenStack Block Storage}
+    
+        \par The OpenStack Block Storage service (cinder) adds persistent storage to a virtual machine. Block Storage provides an infrastructure for managing volumes, and interacts with OpenStack Compute to provide volumes for instances. The service also enables management of volume snapshots, and volume types.
+        
+        \par The Block Storage service consists of the following components:
+        \begin{enumerate}
+            \item cinder-api
+            \par Accepts API requests, and routes them to the cinder-volume for action.
+        
+            \item cinder-volume
+            \par Interacts directly with the Block Storage service, and processes such as the cinder-scheduler. It also interacts with these processes through a message queue. The cinder-volume service responds to read and write requests sent to the Block Storage service to maintain state. It can interact with a variety of storage providers through a driver architecture.
+        
+            \item cinder-scheduler daemon
+            \par Selects the optimal storage provider node on which to create the volume. A similar component to the nova-scheduler.
+        
+            \item cinder-backup daemon
+            \par The cinder-backup service provides backing up volumes of any type to a backup storage provider. Like the cinder-volume service, it can interact with a variety of storage providers through a driver architecture.
+        
+            \item Messaging queue
+            \par Routes information between the Block Storage processes.
+        \end{enumerate}
+    \subsection{Install and configure}
+    \subsubsection{Install and configure controller node}
+        \begin{enumerate}
+            \item Create database, user, role, service and endpoint for cinder
+            \item Install and configure Block Storage controller components
+            \item Populate the Block Storage database
+            \item Restart the Block Storage services
+            \item Remove the SQLite database file
+        \end{enumerate}   
+    \subsubsection{Install and configure a storage node}
+        \begin{enumerate}
+            \item Configure prerequisites
+            \item Install qemu and lvm2
+            \item Configure lvm
+            \item Install and configure Block Storage volume components
+            \item Restart the Block Storage volume service including its dependencies
+            \item Remove the SQLite database file
+            \item Verify operation by creating a volume
+            \item Remove the SQLite database file
+        \end{enumerate}   
+\section{Add Object Storage}
+
+    \par The OpenStack Object Storage is a multi-tenant object storage system. It is highly scalable and can manage large amounts of unstructured data at low cost through a RESTful HTTP API.
+
+    \par It includes the following components:
+    
+    \begin{enumerate}
+        \item Proxy servers (swift-proxy-server)
+        \par Accepts OpenStack Object Storage API and raw HTTP requests to upload files, modify metadata, and create containers. It also serves file or container listings to web browsers. To improve performance, the proxy server can use an optional cache that is usually deployed with memcache.
+        
+        \item Account servers (swift-account-server)
+        \par Manages accounts defined with Object Storage.
+        
+        \item Container servers (swift-container-server)
+        \par Manages the mapping of containers or folders, within Object Storage.
+        
+        \item Object servers (swift-object-server)
+        \par Manages actual objects,such as files, on the storage nodes.
+        
+        \item Various periodic processes
+        \par Performs housekeeping tasks on the large data store. The replication services ensure consistency and availability through the cluster. Other periodic processes include auditors, updaters, and reapers.
+        
+        \item WSGI middleware
+        \par Handles authentication and is usually OpenStack Identity.
+    \end{enumerate}
+
+\section{Add the Orchestration module}
+    \subsection{Orchestration module concepts}
+
+    \par The Orchestration module provides a template-based orchestration for describing a cloud application, by running OpenStack API calls to generate running cloud applications. The software integrates other core components of OpenStack into a one-file template system. The templates allow you to create most OpenStack resource types, such as instances, floating IPs, volumes, security groups and users. It also provides advanced functionality, such as instance high availability, instance auto-scaling, and nested stacks. This enables OpenStack core projects to receive a larger user base.
+
+    \par The service enables deployers to integrate with the Orchestration module directly or through custom plug-ins.
+
+    \par The Orchestration module consists of the following components:
+
+    \begin{enumerate}
+        \item heat command-line client
+        \par A CLI that communicates with the heat-api to run AWS CloudFormation APIs. End developers can directly use the Orchestration REST API.
+
+        \item heat-api component
+        \par An OpenStack-native REST API that processes API requests by sending them to the heat-engine over Remote Procedure Call (RPC).
+
+        \item heat-api-cfn component
+        \par An AWS Query API that is compatible with AWS CloudFormation. It processes API requests by sending them to the heat-engine over RPC.
+
+        \item heat-engine
+        \par Orchestrates the launching of templates and provides events back to the API consumer.
+    \end{enumerate}
+    \subsection{Install and configure}
+        \begin{enumerate}
+            \item Create database, user, role, service and endpoint for heat
+            \item Install and configure the Orchestration components
+            \item Populate the Orchestration database
+            \item Restart the Orchestration services
+            \item Remove the SQLite database file
+            \item Verify operation
+        \end{enumerate}
+
+\section{Add the Telemetry module}
+    \subsection{Telemetry module}
+    
+    \par The Telemetry module performs the following functions:
+    
+        \begin{itemize}
+            \item Efficiently polls metering data related to OpenStack services.
+    
+            \item Collects event and metering data by monitoring notifications sent from services.
+    
+            \item Publishes collected data to various targets including data stores and message queues.
+    
+            \item  Creates alarms when collected data breaks defined rules.
+        \end{itemize}
+    
+    \par The Telemetry module consists of the following components:
+    
+    \begin{enumerate}
+        \item A compute agent (ceilometer-agent-compute)
+        \par Runs on each compute node and polls for resource utilization statistics. There may be other types of agents in the future, but for now our focus is creating the compute agent.
+        
+        \item A central agent (ceilometer-agent-central)
+        \par Runs on a central management server to poll for resource utilization statistics for resources not tied to instances or compute nodes. Multiple agents can be started to scale service horizontally.
+        
+        \item A notification agent (ceilometer-agent-notification)
+        \par Runs on a central management server(s) and consumes messages from the message queue(s) to build event and metering data.
+        
+        \item A collector (ceilometer-collector)
+        \par Runs on central management server(s) and dispatches collected telemetry data to a data store or external consumer without modification.
+        
+        \item An alarm evaluator (ceilometer-alarm-evaluator)
+        \par Runs on one or more central management servers to determine when alarms fire due to the associated statistic trend crossing a threshold over a sliding time window.
+        
+        \item An alarm notifier (ceilometer-alarm-notifier)
+        \par Runs on one or more central management servers to allow alarms to be set based on the threshold evaluation for a collection of samples.
+        
+        \item An API server (ceilometer-api)
+        \par Runs on one or more central management servers to provide data access from the data store.
+    \end{enumerate}
+    \par These services communicate by using the OpenStack messaging bus. Only the collector and API server have access to the data store.
+    \subsection{Install and configure}
+    \begin{enumerate}
+        \item Install and configure controller node
+        \item Configure the Compute service
+        \item Configure the Image service
+        \item Configure the Block Storage service
+        \item Configure the Object Storage service
+        \item Verify the Telemetry installation
+    \end{enumerate}
+%\section{Publish cloud}
+%\section{VM resize configuration}
+%\section{Live migration configuration}
+%\section{Firewall as a service}
+%\section{Load balancer as a service}

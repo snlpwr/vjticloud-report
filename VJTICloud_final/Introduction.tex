@@ -25,7 +25,7 @@ In a world that sees new technological trends bloom and fade on almost a daily b
 
 \section{Objective and Scope Work}
 
-The main objective of the research presented here is to build private cloud using Openstack. Which will act as pilot project in the decision making whether VJTI should go for Private cloud or not. And also to address the following problems in current infrastructure 
+The main objective of the research presented here is to build private cloud using Openstack\cite{openstack}. Which will act as pilot project in the decision making whether VJTI should go for Private cloud or not. And also to address the following problems in current infrastructure 
 
 \begin{enumerate}
   \item User should be able to start and shutdown his own VM
@@ -45,13 +45,13 @@ Though we know that cloud can do this and cloud can do that, it is not easy to h
     \item Nova / Compute service
     \item Glance / Image service
     \item Neutron / Network service
+    \item Swift / Object storage service
 \end{enumerate}
 
-and some optional projects / services:
+and some other additional projects / services:
 \begin{enumerate}
     \item Horizon / Dashboard
     \item Cinder / Block storage service
-    \item Swift / Object storage service
     \item Heat / Orchestration service
     \item Ceilometer / Telemetry service
     \item Sahara / Elastic Map Reduce service
@@ -61,17 +61,17 @@ and some optional projects / services:
 and even if you install these services, all features of these services are not available by default you have to configure them. Following is a list of additional services and features needs to be added in VJTICloud.
 
 \begin{enumerate}
+  \item Network configuration
   \item Block storage service
   \item Object storage service
   \item Dashboard service
+  \item Make cloud available for institute
+  \item GUI access of VM using browser
   \item Orchestration service
   \item Firewall as a service
   \item Load balancer as a service
   \item VM resize 
   \item Live VM migration
-  \item Make cloud available for institute
-  \item GUI access of VM using browser
-  \item Network configuration
   
 \end{enumerate}
 

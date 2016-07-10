@@ -1,0 +1,111 @@
+\chapter{OpenStack Overview}
+OpenStack is a free and open-source cloud computing software platform. Users primarily deploy it as an infrastructure as a service (IaaS) solution. The technology consists of a series of interrelated projects that control pools of processing, storage, and networking resources throughout a data center which users manage through a web-based dashboard, command-line tools, or a RESTful API. OpenStack.org released it under the terms of the Apache License \cite{chen} \cite{openstack}.
+\par
+OpenStack began in 2010 as a joint project of Rackspace Hosting and NASA. Currently, it is managed by the OpenStack Foundation, a non-profit corporate entity established in September 2012 to promote OpenStack software and its community. More than 450 companies have joined the project, including Acelio, Arista Networks, AMD, Avaya, Canonical, Cisco, Citrix, Dell, Dreamhost, EMC, Ericsson, Go Daddy, Hewlett-Packard, Huawei, IBM, Intel, Internap, Juniper Networks, Mellanox, Mirantis, NEC, NetApp, Nexenta, Oracle, PLUMgrid, Pure Storage, Qosmos, Red Hat, SolidFire, SUSE Linux, VMware, VMTurbo and Yahoo!\cite{openstack}.
+\par
+The OpenStack community collaborates around a six-month, time-based release cycle with frequent development milestones. During the planning phase of each release, the community gathers for the OpenStack Design Summit to facilitate developer working-sessions and to assemble plans\cite{openstack}.
+\par
+
+\section{How it works}
+    OpenStack is a cloud operating system that controls large pools of compute, storage, and networking resources throughout a datacenter, all managed through a dashboard that gives administrator control while empowering their users to provision resources through a web interface\cite{openstack}.
+    \begin{figure}[h]
+     \centering
+     \includegraphics[height=8cm,width=14cm]{images/hiw.png}
+     \caption{How it works }%\cite{openstack} 
+     \label{fig:my_label}
+    \end{figure}
+ 
+ \section{Architecture of OpenStack}
+     The OpenStack project is an open source cloud computing platform that supports all types of cloud environments. The project aims for simple implementation, massive scalability, and a rich set of features. Cloud computing experts from around the world contribute to the project.
+     \par
+     OpenStack provides an Infrastructure-as-a-Service (IaaS) solution through a variety of complemental services. Each service offers an application programming interface (API) that facilitates this integration. The following table provides a list of OpenStack services
+     \clearpage
+     \subsection{Conceptual architecture}
+         \par
+         Launching a virtual machine or instance involves many interactions among several services. The following diagram provides the conceptual architecture of a typical OpenStack environment.
+         \begin{figure}[h]
+         \centering
+         \includegraphics[height=12cm,width=14cm]{images/arch.png}
+         \caption{Conceptual architecture of OpenStack} %\cite{openstack}} 
+         \label{fig:my_label}
+         \end{figure}
+     
+     \subsection{Components of OpenStack}
+         \par
+         OpenStack has a modular architecture with various code names for its components.
+         \begin{enumerate}
+         \item Nova
+         \par
+         OpenStack Compute (Nova) is a cloud computing fabric controller, which is the main part of an IaaS system. It is designed to manage and automate pools of computer resources and can work with widely available virtualization technologies, as well as bare metal and high-performance computing (HPC) configurations. KVM, VMware, and Xen are available choices for hypervisor technology, together with Hyper-V and Linux container technology such as LXC \cite{openstack}\cite{wiki}.
+         \par
+         It is written in Python and uses many external libraries such as Eventlet (for concurrent programming), Kombu (for AMQP communication), and SQLAlchemy (for database access). Compute's architecture is designed to scale horizontally on standard hardware with no proprietary hardware or software requirements and provide the ability to integrate with legacy systems and third-party technologies \cite{openstack}\cite{wiki}.
+        \item Swift
+        \par
+        OpenStack Object Storage (Swift) is a scalable redundant storage system. Objects and files are written to multiple disk drives spread throughout servers in the data center, with the OpenStack software responsible for ensuring data replication and integrity across the cluster. Storage clusters scale horizontally simply by adding new servers. Should a server or hard drive fail, OpenStack replicates its content from other active nodes to new locations in the cluster. Because OpenStack uses software logic to ensure data replication and distribution across different devices, inexpensive commodity hard drives and servers can be used. The Total Cost of Ownership (TCO) can be higher than using enterprise-class storage due to many copies required to get high availability \cite{openstack}\cite{wiki}.
+        \par
+        In August 2009, Rackspace started the development of the precursor to OpenStack Object Storage, as a complete replacement for the Cloud Files product. The initial development team consisted of nine developers. SwiftStack, an object storage software company, is currently the leading developer for Swift \cite{wiki}.
+        \item Cinder
+        \par
+        OpenStack Block Storage (Cinder) provides persistent block-level storage devices for use with OpenStack compute instances. The block storage system manages the creation, attaching and detaching of the block devices to servers. Block storage volumes are fully integrated into OpenStack Compute and the Dashboard allowing for cloud users to manage their own storage needs. In addition to local Linux server storage, it can use storage platforms including Ceph, CloudByte, Coraid, EMC (ScaleIO, VMAX and VNX), GlusterFS, Hitachi Data Systems, IBM Storage (Storwize family, SAN Volume Controller, XIV Storage System, and GPFS), Linux LIO, NetApp, Nexenta, Scality, SolidFire, HP (StoreVirtual and 3PAR StoreServ families) and Pure Storage. Block storage is appropriate for performance sensitive scenarios such as database storage, expandable file systems, or providing a server with access to raw block level storage. Snapshot management provides powerful functionality for backing up data stored on block storage volumes. Snapshots can be restored or used to create a new block storage volume \cite{openstack}\cite{wiki}.
+        \item Neutron
+        \par
+        OpenStack Networking (Neutron, formerly Quantum) is a system for managing networks and IP addresses. OpenStack Networking ensures the network is not a bottleneck or limiting factor in a cloud deployment, and gives users self-service ability, even over network configurations \cite{openstack}\cite{wiki}.
+        \par
+        OpenStack Networking provides networking models for different applications or user groups. Standard models include flat networks or VLANs that separate servers and traffic. OpenStack Networking manages IP addresses, allowing for dedicated static IP addresses or DHCP. Floating IP addresses let traffic be dynamically rerouted to any resources in the IT infrastructure, so users can redirect traffic during maintenance or in case of a failure \cite{wiki}.
+        \par
+        Users can create their own networks, control traffic, and connect servers and devices to one or more networks. Administrators can use software-defined networking (SDN) technology like OpenFlow to support high levels of multi-tenancy and massive scale. OpenStack Networking provides an extension framework that can deploy and manage additional network services—such as intrusion detection systems (IDS), load balancing, firewalls, and virtual private networks (VPN) \cite{openstack}\cite{wiki}.
+        \item Horizon
+        \par
+        OpenStack Dashboard (Horizon) provides administrators and users a graphical interface to access, provision, and automate cloud-based resources. The design accommodates third party products and services, such as billing, monitoring, and additional management tools. The dashboard is also brandable for service providers and other commercial vendors who want to make use of it. The dashboard is one of several ways users can interact with OpenStack resources. Developers can automate access or build tools to manage resources using the native OpenStack API or the EC2 compatibility API \cite{openstack}\cite{wiki}.
+        \item Keystone
+        \par
+        OpenStack Identity (Keystone) provides a central directory of users mapped to the OpenStack services they can access. It acts as a common authentication system across the cloud operating system and can integrate with existing backend directory services like LDAP. It supports multiple forms of authentication including standard username and password credentials, token-based systems and AWS-style (i.e. Amazon Web Services) logins. Additionally, the catalog provides a queryable list of all of the services deployed in an OpenStack cloud in a single registry. Users and third-party tools can programmatically determine which resources they can access \cite{openstack}\cite{wiki}.
+        \item Glance
+        \par
+        OpenStack Image Service (Glance) provides discovery, registration, and delivery services for disk and server images. Stored images can be used as a template. It can also be used to store and catalog an unlimited number of backups. The Image Service can store disk and server images in a variety of back-ends, including OpenStack Object Storage. The Image Service API provides a standard REST interface for querying information about disk images and lets clients stream the images to new servers \cite{wiki}.
+        \par
+        OpenStack.org updates Glance every six months, along with other OpenStack modules. Some of the updates are to catch-up with existing cloud infrastructure services, as OpenStack is comparatively new. Glance adds many enhancements to existing legacy infrastructures. For example, if integrated with VMware, Glance introduces advanced features to the vSphere family such as, vMotion, high availability and dynamic resource scheduling (DRS). vMotion is the live migration of a running VM, from one physical server to another, without service interruption. Thus, it enables a dynamic and automated self-optimizing datacenter, allowing hardware maintenance for the underperforming servers without downtimes \cite{wiki}.
+        \par
+        OpenStack's image is an operating system installed on a virtual machine (VM). If a developer adds a variation to an image (as a configuration job) the result is an instance of that image. Subsequently, that instance is an image that developers can add more variations to \cite{wiki}.
+        \par
+        Glance- OpenStack's image service module is a compute module, as it does not store images, variations, or instances but rather catalogs them and holds their metadata from Swift or a storage backend datastore. Other modules must communicate with the images metadata through Glance for example, Heat. Also, Nova can present information about the images, and configure a variation on an image to produce an instance. However, Glance is the only module that can add, delete, share, or duplicate images \cite{wiki}.
+        \item Ceilometer
+        \par
+        OpenStack Telemetry Service (Ceilometer) provides a Single Point Of Contact for billing systems, providing all the counters they need to establish customer billing, across all current and future OpenStack components. The delivery of counters is traceable and auditable, the counters must be easily extensible to support new projects, and agents doing data collections should be independent of the overall system \cite{wiki}.
+        
+        \item Heat
+        \par
+        Heat is a service to orchestrate multiple composite cloud applications using templates, through both an OpenStack-native REST API and a CloudFormation-compatible Query API \cite{wiki}.
+     \end{enumerate}
+     
+     \subsection{OpenStack Services}
+     \begin{enumerate}
+         \item Dashboard 
+         \par
+         Provides a web-based self-service portal to interact with underlying OpenStack services, such as launching an instance, assigning IP addresses and configuring access controls.%\cite{openstack}
+         \item Compute 
+         \par
+         Manages the lifecycle of compute instances in an OpenStack environment. Responsibilities include spawning, scheduling and decommissioning of virtual machines on demand.% \cite{openstack}
+         \item Networking
+         \par
+         Enables Network-Connectivity-as-a-Service for other OpenStack services, such as OpenStack Compute. Provides an API for users to define networks and the attachments into them. Has a pluggable architecture that supports many popular networking vendors and technologies.% \cite{openstack}
+         \item Object Storage
+         \par
+         Stores and retrieves arbitrary unstructured data objects via a RESTful, HTTP based API. It is highly fault tolerant with its data replication and scale out architecture. Its implementation is not like a file server with mountable directories.% \cite{openstack}
+         \item Block Storage
+         \par
+         Provides persistent block storage to running instances. Its pluggable driver architecture facilitates the creation and management of block storage devices.% \cite{openstack}
+         \item Identity service
+         \par
+         Provides an authentication and authorization service for other OpenStack services. Provides a catalog of endpoints for all OpenStack services.% \cite{openstack}
+         \item Image Service 
+         \par
+         Stores and retrieves virtual machine disk images. OpenStack Compute makes use of this during instance provisioning.% \cite{openstack}
+         \item Telemetry 
+         \par
+         Monitors and meters the OpenStack cloud for billing, benchmarking, scalability, and statistical purposes.% \cite{openstack}
+         \item Orchestration 
+         \par
+         Orchestrates multiple composite cloud applications by using either the native HOT template format or the AWS CloudFormation template format, through both an OpenStack-native REST API and a CloudFormation-compatible Query API.% \cite{openstack}
+     \end{enumerate}
+     
