@@ -1,11 +1,22 @@
-
 \chapter{Experiments and Results}
 \section{Hypervisor test with default flavors}
 
-Hypervisor with i5, 16 GB RAM, 219 GB DISK
+We have three hypervisor with i5-4460 CPU @3.20GHz, 16 GB RAM, 219 GB disk space of shared storage. We disabled two hypervisors and performed launch instance operation on only compute1 hypervisor, following are the results, we could not launch m1.small, m1.medium, m1.large and m1.xlarge more instances due to limited shared storage.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=15cm,height=4cm]{images/default_flavor2.png}
+    \includegraphics[width=14cm,height=4cm]{images/default_flavor2.png}
     \caption{Hypervisor capacity}
 \end{figure}
+
+\section{Firewall testing}
+    \par A firewall is a network security system that monitors and controls the incoming and outgoing network traffic based on predetermined security rules.
+    
+    \par In OpenStack cloud we can create networks, subnets and routers to form a network. Each router has one gateway that connects to a network, and many interfaces connected to subnets. Subnets can access machines on other subnets connected to the same router. To prevent access between two subnets we can add firewall and setup rules like blocking ICMP packet etc. We experimented with this and able to block ping command from one subnet to another.
+    
+\section{Load balancer testing}
+    \par A load balancer is a device that acts as a reverse proxy and distributes network or application traffic across a number of servers. Load balancers are used to increase capacity (concurrent users) and reliability of applications.
+    
+    \par The OpenStack networking component, Neutron, includes a Load Balancer as a Service (LBaaS). This service lets us configure a load balancer\cite{lb} that runs outside of our instances and directs traffic to your instances. A common use case is when you want to use multiple instances to serve web pages and meet performance or reliability goals.
+    
+    \par We tested load balancer, by putting three centos web servers behind load balancer. It performs the intended job perfectly.

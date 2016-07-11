@@ -1,4 +1,4 @@
-\chapter{Architecture Design and deployment of cloud}
+\chapter{Implementation}
 
     \section{Prerequisites}
         \subsection{System Requirements for OpenStack cloud}
@@ -43,7 +43,7 @@
     \begin{figure}[h]
         \centering
         \includegraphics[width=15cm,height=9cm]{images/two_node_arch.png}
-        \caption{Three-node architecture}
+        \caption{Two-node architecture}
     \end{figure}
     
     \begin{itemize}
@@ -68,7 +68,7 @@
         \caption{Network configuration} 
      \end{figure}
      
-\section{Basic environment}
+\section{Basic environment setup}
     \begin{enumerate}
         \item Install Ubuntu Server 14.04 LTS  on each node
         \item Build physical network of all the nodes
@@ -152,6 +152,7 @@
             \item Create OpenStack client environment scripts
         \end{enumerate}
     
+
 \section{Add the Image service}
     \subsection{OpenStack Image service}
     \par The OpenStack Image service is central to Infrastructure-as-a-Service (IaaS). It accepts API requests for disk or server images, and image metadata from end users or OpenStack Compute components. It also supports the storage of disk or server images on various repository types, including OpenStack Object Storage.
@@ -167,6 +168,7 @@
     \item glance-registry
     \par Stores, processes, and retrieves metadata about images. Metadata includes items such as size and type.
     \end{enumerate}
+    
     \subsection{Install and configure}
         \begin{enumerate}
             \item Create database, user, role, service and endpoint for glance
@@ -177,6 +179,8 @@
             \item Remove the SQLite database file
             \item Verify operation by uploading an image
         \end{enumerate}
+
+
 \section{Add the Compute service}
     \subsection{OpenStack Compute}
     \par Use OpenStack Compute to host and manage cloud computing systems. OpenStack Compute is a major part of an Infrastructure-as-a-Service (IaaS) system. The main modules are implemented in Python.
@@ -287,7 +291,29 @@
             \item Verify Operation
         \end{enumerate}
 
+
 \section{Add a networking component}
+
+    \subsection{OpenStack Networking}
+    \par OpenStack Networking allows you to create and attach interface devices managed by other OpenStack services to networks. Plug-ins can be implemented to accommodate different networking equipment and software, providing flexibility to OpenStack architecture and deployment.
+
+    \par It includes the following components:
+    
+    \begin{enumerate}
+        \item neutron-server
+        \par Accepts and routes API requests to the appropriate OpenStack Networking plug-in for action.
+
+        \item OpenStack Networking plug-ins and agents
+        \par Plugs and unplugs ports, creates networks or subnets, and provides IP addressing. These plug-ins and agents differ depending on the vendor and technologies used in the particular cloud. OpenStack Networking ships with plug-ins and agents for Cisco virtual and physical switches, NEC OpenFlow products, Open vSwitch, Linux bridging, and the VMware NSX product.
+        \par The common agents are L3 (layer 3), DHCP (dynamic host IP addressing), and a plug-in agent.
+        
+        \item Messaging queue
+        \par Used by most OpenStack Networking installations to route information between the neutron-server and various agents, as well as a database to store networking state for particular plug-ins.
+    \end{enumerate}
+    
+    \par OpenStack Networking mainly interacts with OpenStack Compute to provide networks and connectivity for its instances.
+    
+    
     \subsection{Networking concepts}
 
     \par OpenStack Networking (neutron) manages all networking facets for the Virtual Networking Infrastructure (VNI) and the access layer aspects of the Physical Networking Infrastructure (PNI) in your OpenStack environment. OpenStack Networking enables tenants to create advanced virtual network topologies including services such as firewalls, load balancers, and virtual private networks (VPNs).
@@ -353,11 +379,10 @@
         \end{enumerate}   
     \subsubsection{Create initial networks}
         \begin{enumerate}
-        \item External network
-        \item Tenant network
-        \item Verify connectivity
+            \item External network
+            \item Tenant network
+            \item Verify connectivity
         \end{enumerate}   
-    \end{enumerate}
     
 \section{Add the dashboard}
     \par The OpenStack dashboard, also known as Horizon, is a Web interface that enables cloud administrators and users to manage various OpenStack resources and services.
@@ -419,6 +444,8 @@
             \item Verify operation by creating a volume
             \item Remove the SQLite database file
         \end{enumerate}   
+
+
 \section{Add Object Storage}
 
     \par The OpenStack Object Storage is a multi-tenant object storage system. It is highly scalable and can manage large amounts of unstructured data at low cost through a RESTful HTTP API.
@@ -444,6 +471,7 @@
         \item WSGI middleware
         \par Handles authentication and is usually OpenStack Identity.
     \end{enumerate}
+
 
 \section{Add the Orchestration module}
     \subsection{Orchestration module concepts}
@@ -477,18 +505,17 @@
             \item Verify operation
         \end{enumerate}
 
+
 \section{Add the Telemetry module}
+    
     \subsection{Telemetry module}
     
     \par The Telemetry module performs the following functions:
     
         \begin{itemize}
             \item Efficiently polls metering data related to OpenStack services.
-    
             \item Collects event and metering data by monitoring notifications sent from services.
-    
             \item Publishes collected data to various targets including data stores and message queues.
-    
             \item  Creates alarms when collected data breaks defined rules.
         \end{itemize}
     
@@ -517,6 +544,7 @@
         \par Runs on one or more central management servers to provide data access from the data store.
     \end{enumerate}
     \par These services communicate by using the OpenStack messaging bus. Only the collector and API server have access to the data store.
+    
     \subsection{Install and configure}
     \begin{enumerate}
         \item Install and configure controller node

@@ -1,4 +1,4 @@
-\chapter{OpenStack Overview}
+\section{OpenStack}
 OpenStack is a free and open-source cloud computing software platform. Users primarily deploy it as an infrastructure as a service (IaaS) solution. The technology consists of a series of interrelated projects that control pools of processing, storage, and networking resources throughout a data center which users manage through a web-based dashboard, command-line tools, or a RESTful API. OpenStack.org released it under the terms of the Apache License \cite{chen} \cite{openstack}.
 \par
 OpenStack began in 2010 as a joint project of Rackspace Hosting and NASA. Currently, it is managed by the OpenStack Foundation, a non-profit corporate entity established in September 2012 to promote OpenStack software and its community. More than 450 companies have joined the project, including Acelio, Arista Networks, AMD, Avaya, Canonical, Cisco, Citrix, Dell, Dreamhost, EMC, Ericsson, Go Daddy, Hewlett-Packard, Huawei, IBM, Intel, Internap, Juniper Networks, Mellanox, Mirantis, NEC, NetApp, Nexenta, Oracle, PLUMgrid, Pure Storage, Qosmos, Red Hat, SolidFire, SUSE Linux, VMware, VMTurbo and Yahoo!\cite{openstack}.
@@ -6,31 +6,29 @@ OpenStack began in 2010 as a joint project of Rackspace Hosting and NASA. Curren
 The OpenStack community collaborates around a six-month, time-based release cycle with frequent development milestones. During the planning phase of each release, the community gathers for the OpenStack Design Summit to facilitate developer working-sessions and to assemble plans\cite{openstack}.
 \par
 
-\section{How it works}
+\subsection{How it works}
     OpenStack is a cloud operating system that controls large pools of compute, storage, and networking resources throughout a datacenter, all managed through a dashboard that gives administrator control while empowering their users to provision resources through a web interface\cite{openstack}.
     \begin{figure}[h]
      \centering
      \includegraphics[height=8cm,width=14cm]{images/hiw.png}
      \caption{How it works }%\cite{openstack} 
-     \label{fig:my_label}
     \end{figure}
  
- \section{Architecture of OpenStack}
+ \subsection{Architecture of OpenStack}
      The OpenStack project is an open source cloud computing platform that supports all types of cloud environments. The project aims for simple implementation, massive scalability, and a rich set of features. Cloud computing experts from around the world contribute to the project.
      \par
      OpenStack provides an Infrastructure-as-a-Service (IaaS) solution through a variety of complemental services. Each service offers an application programming interface (API) that facilitates this integration. The following table provides a list of OpenStack services
      \clearpage
-     \subsection{Conceptual architecture}
+     \subsubsection{Conceptual architecture}
          \par
          Launching a virtual machine or instance involves many interactions among several services. The following diagram provides the conceptual architecture of a typical OpenStack environment.
-         \begin{figure}[h]
-         \centering
-         \includegraphics[height=12cm,width=14cm]{images/arch.png}
-         \caption{Conceptual architecture of OpenStack} %\cite{openstack}} 
-         \label{fig:my_label}
-         \end{figure}
+        \begin{figure}[h]
+            \centering
+            \includegraphics[height=12cm,width=14cm]{images/arch.png}
+            \caption{Conceptual architecture of OpenStack}
+        \end{figure}
      
-     \subsection{Components of OpenStack}
+     \subsubsection{Components of OpenStack}
          \par
          OpenStack has a modular architecture with various code names for its components.
          \begin{enumerate}
@@ -78,7 +76,7 @@ The OpenStack community collaborates around a six-month, time-based release cycl
         Heat is a service to orchestrate multiple composite cloud applications using templates, through both an OpenStack-native REST API and a CloudFormation-compatible Query API \cite{wiki}.
      \end{enumerate}
      
-     \subsection{OpenStack Services}
+     \subsubsection{OpenStack Services}
      \begin{enumerate}
          \item Dashboard 
          \par
