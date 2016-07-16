@@ -242,7 +242,7 @@
 }
 \newcommand\abstract[1]{
 \btypeout{Abstract}
-\thispagestyle{plain}
+\thispagestyle{empty}
 \begin{center}{\huge{\textit{Abstract}} \par}\end{center}
 {\normalsize #1}
 \vfil\vfil\null
@@ -250,7 +250,7 @@
 
 \newcommand\statement[1]{
 \btypeout{Statement}
-\thispagestyle{plain}
+\thispagestyle{empty}
 \begin{center}{\huge{\textit{Statement of Candidate}} \par}\end{center}
 {\normalsize #1}
 \vfil\vfil\null
@@ -266,7 +266,7 @@
 
 \newcommand\certificate[1]{
 \btypeout{Certificate}
-\thispagestyle{plain}
+\thispagestyle{empty}
 \begin{center}{\huge{\textit{Certificate}} \par}\end{center}
 {\normalsize #1}
 \vfil\vfil\null
@@ -382,7 +382,7 @@
 }
 \newcommand\acknowledgements[2]{
 \btypeout{Acknowledgement}
-\thispagestyle{plain}
+\thispagestyle{empty}
 \begin{center}{\huge{\textit{Acknowledgement}} \par}\end{center}
 {\normalsize #1}
 \vfil\vfil\null

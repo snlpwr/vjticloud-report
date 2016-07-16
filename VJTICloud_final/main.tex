@@ -23,23 +23,24 @@
 %\renewcommand{\abstractnamefont}{\normalfont\large\bfseries}
 %include other pages
 \makeatletter
+
 \input{Title}
 \input{Statement_of_Candidate}
-\pagenumbering{roman} %numbering before main content starts
 \input{Certificate}
 \input{Approval}
 \input{Acknowledgements}
 \input{Abstract}
 
+\pagenumbering{roman}
+\setcounter{page}{0}
 \tableofcontents
 \listoffigures
+
 %\listoftables
 \newpage
 \pagenumbering{arabic} %reset numbering to normal for the main content
 \input{Introduction} 
 \input{Literature_Survey}
-%\input{Data_Preprocessing}
-%\input{Improved_Probabilistic_Model}
 \input{openstack}
 \input{vjticloud}
 \input{Results}
